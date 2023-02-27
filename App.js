@@ -52,8 +52,6 @@ export default function App() {
     if (!loaded) {
         return (
             <View style={[styles.container, { flex: 1, alignItems: 'center', justifyContent: 'center', width: Dimensions.get('screen').width }]}>
-
-
                 <ActivityIndicator color='black' size={36} />
             </View>
         )
@@ -80,6 +78,7 @@ export default function App() {
 
     return (
         <View style={styles.container}>
+            <StatusBar translucent backgroundColor={'transparent'}/>
             <Weather weatherData={weatherData} currentWeather={currentWeather} fetchWeatherData={fetchWeatherData} />
         </View>
     );

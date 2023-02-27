@@ -18,37 +18,42 @@ export default function Weather({ weatherData, currentWeather, fetchWeatherData 
         const sunsetDate = new Date((sunsetTime + actual.timezone) * 1000);
         const sunriseHour = sunriseDate.getHours();
         const sunsetHour = sunsetDate.getHours();
-        const currentHour = new Date(Date.now()).getHours() + actual.timezone / 3600;
-
-        if (currentHour > sunriseHour + 1 && currentHour < sunsetHour - 1) {
-            // Si es de día, devuelve un gradiente lineal que simula un cielo despejado
-            return {
-                colors: ['#3498db', '#9dc3e6', '#d4eaff'],
-                start: { x: 0, y: 0 },
-                end: { x: 1, y: 1 }
-            }
-        } else if (currentHour >= sunsetHour && currentHour < sunsetHour + 1) {
-            // Si es el anochecer, devuelve un gradiente lineal que simula un cielo al atardecer
-            return {
-                colors: ['#FFB347', '#FFA347', '#FF8347', '#FF6047', '#D11F4C', '#6D1B7B', '#14142B'].reverse(),
-                start: { x: 0, y: 0 },
-                end: { x: 1, y: 1 },
-            }
-        } else if (currentHour <= sunriseHour + 1 && currentHour >= sunriseHour - 1) {
+        let currentHour = new Date(Date.now()).getHours() + (actual.timezone / 3600 - 1);
+        if(currentHour < 0 ){
+            currentHour = 24 + currentHour;
+        }
+       /*  console.log('Sunrise ' + sunriseHour);
+        console.log('Sunset ' + sunsetHour);
+        console.log('Current ' + currentHour); */
+        if (currentHour >= sunriseHour - 1 && currentHour <= sunriseHour + 1) {
             // Si es el amanecer, devuelve un gradiente lineal que simula un cielo al amanecer
             return {
-                colors: ['#ffcc00', '#ff9933', '#fac241', '#66ccff', '#0fa8f5'].reverse(),
-                start: { x: 0, y: 0 },
-                end: { x: 1, y: 1 },
-            }
-        } else {
+              colors: ['#ffcc00', '#ff9933', '#fac241', '#66ccff', '#0fa8f5'].reverse(),
+              start: { x: 0, y: 0 },
+              end: { x: 1, y: 1 },
+            };
+          } else if (currentHour >= sunsetHour - 1 && currentHour <= sunsetHour + 1) {
+            // Si es el anochecer, devuelve un gradiente lineal que simula un cielo al atardecer
+            return {
+              colors: ['#FFB347', '#FFA347', '#FF8347', '#FF6047', '#D11F4C', '#6D1B7B', '#14142B'].reverse(),
+              start: { x: 0, y: 0 },
+              end: { x: 1, y: 1 },
+            };
+          } else if (currentHour > sunriseHour + 1 && currentHour < sunsetHour - 1) {
+            // Si es de día, devuelve un gradiente lineal que simula un cielo despejado
+            return {
+              colors: ['#3498db', '#9dc3e6', '#d4eaff'],
+              start: { x: 0, y: 0 },
+              end: { x: 1, y: 1 }
+            };
+          } else {
             // Si es de noche, devuelve un gradiente lineal que simula un cielo nocturno
             return {
-                colors: ['#001d63', '#165091', '#2465b0'],
-                start: { x: 0, y: 0 },
-                end: { x: 1, y: 1 },
-            }
-        }
+              colors: ['#001d63', '#165091', '#2465b0'],
+              start: { x: 0, y: 0 },
+              end: { x: 1, y: 1 },
+            };
+          }
     }
 
     return (
@@ -219,12 +224,12 @@ export default function Weather({ weatherData, currentWeather, fetchWeatherData 
                                         <EvilIcons name="close" size={40} color={colores} />
                                     </TouchableHighlight>
                                     <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingTop: 10, marginBottom: -20 }}>
-                                        <Text style={{ fontSize: 30 }}>{Math.round(selectedItem.main.temp)}ºC</Text>
+                                        <Text style={{ fontSize: 30, color:'white' }}>{Math.round(selectedItem.main.temp)}ºC</Text>
                                         <View style={{ flexDirection: 'row' }}>
-                                            <Text style={{ fontSize: 24 }}>{Math.round(selectedItem.main.temp_min)}ºC/{Math.round(selectedItem.main.temp_max)}ºC</Text>
+                                            <Text style={{ fontSize: 24, color:'white' }}>{Math.round(selectedItem.main.temp_min)}ºC/{Math.round(selectedItem.main.temp_max)}ºC</Text>
                                         </View>
                                     </View>
-                                    <View style={styles.extraInfo}>
+                                    <View style={[styles.extraInfo, {height:Dimensions.get('screen').height / 6.5}]}>
                                         <View style={styles.info}>
                                             <View>
                                                 <Image
@@ -252,7 +257,7 @@ export default function Weather({ weatherData, currentWeather, fetchWeatherData 
                                             </Text>
                                         </View>
                                     </View>
-                                    <View style={styles.extraInfo}>
+                                    <View style={[styles.extraInfo, {height:Dimensions.get('screen').height / 4.75}]}>
                                         <View style={styles.info}>
                                             <View>
                                                 <Text style={{ textAlign: 'center', fontSize: 16 }}>

@@ -34,33 +34,64 @@ const Busqueda = ({ fetchWeatherData }) => {
                     let coordinates = datos[1];
 
                     let text = React.createElement(Text, {}, datos[0]);
-                    if (i == 0) {
+                    if (i === 0 && response.data.length === 1) {
                         let listItem = (
                             <ListItem
                                 key={i}
                                 onTouchStart={() => {
                                     fetchWeatherData(coordinates[0], coordinates[1]);
-                                }} containerStyle={{ borderTopRightRadius: 5, borderTopLeftRadius: 5, backgroundColor: colors[0], width: Dimensions.get('screen').width - 20 }}>
+                                }}
+                                containerStyle={{
+                                    borderRadius: 5,
+                                    backgroundColor: colors[0],
+                                    width: Dimensions.get('screen').width - 20,
+                                }}
+                            >
                                 <ListItem.Content containerStyle={{ backgroundColor: colors[0] }}>
-                                    <ListItem.Title style={{ color: 'black' }}>
-                                        {text}
-                                    </ListItem.Title>
+                                    <ListItem.Title style={{ color: 'black' }}>{text}</ListItem.Title>
                                 </ListItem.Content>
-                            </ListItem>);
+                            </ListItem>
+                        );
                         array.push(listItem);
-                    } else if (i == (response.data).length - 1) {
+                    } else if (i === 0 && response.data.length > 1) {
+                        let listItem = (
+                            <ListItem
+                                key={i}
+                                onTouchStart={() => {
+                                    fetchWeatherData(coordinates[0], coordinates[1]);
+                                }}
+                                containerStyle={{
+                                    borderTopRightRadius: 5,
+                                    borderTopLeftRadius: 5,
+                                    backgroundColor: colors[0],
+                                    width: Dimensions.get('screen').width - 20,
+                                }}
+                            >
+                                <ListItem.Content containerStyle={{ backgroundColor: colors[0] }}>
+                                    <ListItem.Title style={{ color: 'black' }}>{text}</ListItem.Title>
+                                </ListItem.Content>
+                            </ListItem>
+                        );
+                        array.push(listItem);
+                    } else if (i === response.data.length - 1) {
                         let listItem = (
                             <ListItem
                                 key={datos[1]}
                                 onTouchStart={() => {
                                     fetchWeatherData(coordinates[0], coordinates[1]);
-                                }} containerStyle={{ borderBottomRightRadius: 5, borderBottomLeftRadius: 5, backgroundColor: colors[0], width: Dimensions.get('screen').width - 20 }}>
+                                }}
+                                containerStyle={{
+                                    borderBottomRightRadius: 5,
+                                    borderBottomLeftRadius: 5,
+                                    backgroundColor: colors[0],
+                                    width: Dimensions.get('screen').width - 20,
+                                }}
+                            >
                                 <ListItem.Content containerStyle={{ backgroundColor: colors[0] }}>
-                                    <ListItem.Title style={{ color: 'black' }}>
-                                        {text}
-                                    </ListItem.Title>
+                                    <ListItem.Title style={{ color: 'black' }}>{text}</ListItem.Title>
                                 </ListItem.Content>
-                            </ListItem>);
+                            </ListItem>
+                        );
                         array.push(listItem);
                     } else {
                         let listItem = (
@@ -68,13 +99,17 @@ const Busqueda = ({ fetchWeatherData }) => {
                                 key={datos[1]}
                                 onTouchStart={() => {
                                     fetchWeatherData(coordinates[0], coordinates[1]);
-                                }} containerStyle={{ backgroundColor: colors[0], width: Dimensions.get('screen').width - 20 }}>
+                                }}
+                                containerStyle={{
+                                    backgroundColor: colors[0],
+                                    width: Dimensions.get('screen').width - 20,
+                                }}
+                            >
                                 <ListItem.Content containerStyle={{ backgroundColor: colors[0] }}>
-                                    <ListItem.Title style={{ color: 'black' }}>
-                                        {text}
-                                    </ListItem.Title>
+                                    <ListItem.Title style={{ color: 'black' }}>{text}</ListItem.Title>
                                 </ListItem.Content>
-                            </ListItem>);
+                            </ListItem>
+                        );
                         array.push(listItem);
                     }
                 })
@@ -92,7 +127,6 @@ const Busqueda = ({ fetchWeatherData }) => {
         if (text === '') {
             setLista('');
         }
-        setLista('');
     }
 
     return (
